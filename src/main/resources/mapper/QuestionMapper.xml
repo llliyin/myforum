@@ -350,4 +350,5 @@
   <select id="selectByPageAndId" resultMap="BaseResultMap">
      select * from question where CREATOR=#{userId} limit #{offset}, #{size}
   </select>
+
 </mapper>

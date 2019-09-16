@@ -61,9 +61,7 @@ public class QuestionService {
     public PaginationDTO findQuestions(Integer page, Integer size) {
 
         Integer totalSize = questionMapper.countOfQuestions();
-
         Integer totalPage = getTotalPage(totalSize, page, size);
-
         Integer offset = size * (page - 1);
         List<Question> questions = questionMapper.selectByPage(offset, size);
         return getPaginationDto(questions,totalPage,page);
@@ -71,7 +69,6 @@ public class QuestionService {
 
     public PaginationDTO selectMyQuestion(Long userId, Integer page, Integer size) {
         Integer totalSize = questionMapper.countOfQuestionsByUser(userId);
-System.out.println(totalSize);
         Integer totalPage = getTotalPage(totalSize,page, size);
         Integer offset = size * (page - 1);
         List<Question> questions = questionMapper.selectByPageAndId(userId,offset, size);

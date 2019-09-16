@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.transform.Source;
 
 @Controller
 public class ProfileController {
@@ -25,13 +26,13 @@ public class ProfileController {
                               Model model,
                               HttpSession session,
                               @RequestParam(name = "page",defaultValue = "1") Integer page,
-                              @RequestParam(name="size",defaultValue = "10") Integer size) {
+                              @RequestParam(name="size",defaultValue = "5") Integer size) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/";
         }
         if ("questions".equals(action)) {
-            model.addAttribute("section", "question");
+            model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");
             PaginationDTO paginationDTO = questionService.selectMyQuestion(user.getId(), page, size);
             model.addAttribute("list",paginationDTO);
@@ -40,6 +41,7 @@ public class ProfileController {
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
         }
+
         return "profile";
     }
 }
