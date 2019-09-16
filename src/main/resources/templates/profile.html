@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${sectionName}">个人中心</title>
+    <head th:insert="~{import::head}">
+</head>
+<body>
+<div th:insert="~{navigation::nav}"></div>
+<div class="container-fluid main">
+
+    <!--这是左边的块-->
+    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+        <div class="teal">
+            <h2 th:text="${sectionName}"></h2>
+        </div>
+        <hr>
+        <div th:each="question:${list.data}"  class="media">
+            <div class="media-left">
+                <a href="#">
+                    <img class="media-object img-rounded" th:src="@{${question.user.avatarUrl}}" src="images/client.png" alt="..." style="width: 50px">
+                </a>
+            </div>
+
+            <div class="media-body">
+                <h4 class="media-heading" th:text="${question.title}">怎样快速学会springboot</h4>
+            </div>
+
+        </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li th:if="${list.showFirstPage}">
+                    <a href="#" th:href="@{/(page=1}">
+                        <span aria-hidden="true">&lt;&lt;</span>
+                    </a>
+                </li>
+                <li th:if="${list.showPreviousPage}">
+                    <a href="#" th:href="@{/(page=${list.page}-1)}" aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
+
+                <li  th:each="page:${list.pages}" th:class="${list.page == page}? 'active' : ''"><a th:href="@{/(page=${page})}" th:text="${page}">1</a></li>
+
+                <li th:if="${list.showNextPage}">
+                    <a href="#" th:href="@{/(page=${list.page}-1)}" aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+                <li th:if="${list.showEndPage}">
+                    <a href="#" th:href="@{/(page=${list.totalPage})}">
+                        <span aria-hidden="true">&gt;&gt;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!--这是右边的块-->
+    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+        <div class="md-margin-small">
+            <div class="list-group">
+                <a href="/profile/questions" th:class="${sectionName == '我的提问' ? 'active list-group-item':'list-group-item'}">我的提问</a>
+                <a href="/profile/replies" th:class="${sectionName == '最新回复' ? 'active list-group-item':'list-group-item'}">最新回复<span class="badge">14</span></a>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

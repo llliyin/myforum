@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <!-- 本地 jdbc 位置-->
+    <!--<classPathEntry location="D:/Java/tool/ConnectionDriver/Dm7JdbcDriver17.jar" />-->
+
+    <!--读取数据库配置文件,可以可用这个来将数据库的相关配置写在外部文件中（db.properties）-->
+    <!--<properties resource="db.properties"/>-->
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <commentGenerator>
+            <!--是否在代码中显示注释,true则没有注释-->
+            <property name="suppressAllComments" value="true"/>
+
+            <!--去掉时间戳 -->
+            <!--<property name="suppressDate" value="true"/>-->
+
+        </commentGenerator>
+        <!--配置数据库连接-->
+        <jdbcConnection driverClass="org.h2.Driver"
+                        connectionURL="jdbc:h2:~/myforum"
+                        userId=""
+                        password="">
+        </jdbcConnection>
+
+        <!-- java与jdbc数据转换 -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--
+       javaModelGenerator java bean配置
+       targetpackage  输出路径
+       targetProject 输出项目位置
+         -->
+        <!--指定java bean生成的位置-->
+        <javaModelGenerator targetPackage="com.qly.myforum.pojo"
+                            targetProject="src/main/java">
+            <!--enableSubPackages是否开启子包名,是否在名称后面加上scheme-->
+            <property name="enableSubPackages" value="true"/>
+            <!--在set中去掉空格 (trim)-->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--指定sql映射文件生成的位置-->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!--指定dao接口生成的位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.qly.myforum.mapper"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!--指定每个表的生成策略-->
+        <!-- <table tableName="DEVICEWARNING" domainObjectName="User" ></table>
+        <table tableName="USER" domainObjectName="Warning"></table> -->
+        <!--<table tableName="student" domainObjectName="Student" ></table>-->
+        <!--<table tableName="grade" domainObjectName="Grade" ></table>-->
+        <table tableName="AD" domainObjectName="Ad"></table>
+        <table tableName="COMMENT" domainObjectName="Comment"></table>
+        <table tableName="NAV" domainObjectName="Nav"></table>
+        <table tableName="NOTIFICATION" domainObjectName="Notification"></table>
+        <table tableName="QUESTION" domainObjectName="Question"></table>
+        <table tableName="USER" domainObjectName="User"></table>
+        <!-- <table tableName="%" ></table>-->
+    </context>
+</generatorConfiguration>

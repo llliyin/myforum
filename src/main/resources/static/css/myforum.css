@@ -1,0 +1,26 @@
+.main{
+    margin: 30px 60px;
+    background-color: white;
+    font-weight: 300;
+}
+body{
+    background-image: url("../images/background.png");
+}
+
+.btn-publish{
+    float: right;
+    margin-bottom: 20px;
+}
+.teal{
+    color: darkgray;
+}
+
+.md-margin-small{
+    margin: 20px 0px;
+}
+.text-desc {
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}
+
