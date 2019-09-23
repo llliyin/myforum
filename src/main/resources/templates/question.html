@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${question.title}">个人中心</title>
+    <head th:insert="~{import::head}">
+</head>
+<body>
+<div th:insert="~{navigation::nav}"></div>
+<div class="container-fluid main">
+
+    <!--这是左边的块-->
+    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+        <div>
+            <h4 th:text="${question.title}"></h4>
+            <span class="text-desc">
+                作者：<span th:text="${question.user.name}"> </span>•
+                发布时间：<span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>•
+                <span th:text="${question.viewCount}">2</span> 次浏览
+            </span>
+        </div>
+        <hr  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
+        <hr>
+        <div class="md-menu">
+            <a th:href="@{'/question/'+${question.id}}"> <span class="glyphicon glyphicon-pencil">编辑</span></a>
+        </div>
+
+        <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}">
+    </div>
+
+    <!--这是右边的块-->
+    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h4>发起人</h4>
+            <div class="media">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-rounded" th:src="${question.user.avatarUrl}" alt="头像">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h6 class="media-heading" th:text="${question.user.name}"></h6>
+                    ...
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h4>相关问题</h4>
+        </div>
+    </div>
+</div>
+</body>
+</html>

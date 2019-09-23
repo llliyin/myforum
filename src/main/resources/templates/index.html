@@ -24,7 +24,9 @@
                 </div>
 
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}">怎样快速学会springboot</h4>
+                    <h4 class="media-heading">
+                        <a th:href="@{'/question/'+${question.id}}"  th:text="${question.title}"></a>
+                        怎样快速学会springboot</h4>
                     <span class="text-desc">
                         <span th:text="${question.commentCount}">1</span> 个回复 • <span
                             th:text="${question.viewCount}">2</span> 次浏览 • <span

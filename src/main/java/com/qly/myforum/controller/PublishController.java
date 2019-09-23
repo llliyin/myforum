@@ -6,9 +6,7 @@ import com.qly.myforum.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,7 +16,7 @@ public class PublishController {
     @Autowired
     QuestionService questionService;
 
-    @RequestMapping("publish")
+    @GetMapping("publish")
     public String publishPage(){
         return "publish";
     }

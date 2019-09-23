@@ -5,6 +5,7 @@ import com.qly.myforum.dto.QuestionDTO;
 import com.qly.myforum.mapper.QuestionMapper;
 import com.qly.myforum.mapper.UserMapper;
 import com.qly.myforum.pojo.Question;
+import com.qly.myforum.pojo.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,5 +74,16 @@ public class QuestionService {
         Integer offset = size * (page - 1);
         List<Question> questions = questionMapper.selectByPageAndId(userId,offset, size);
         return getPaginationDto(questions,totalPage,page);
+    }
+
+    public QuestionDTO getQuestionDTOById(Long id) {
+
+        Question question = questionMapper.selectByPrimaryKey(id);
+        QuestionDTO questionDTO=new QuestionDTO();
+        BeanUtils.copyProperties(question,questionDTO);
+        User user = userMapper.selectByPrimaryKey(question.getCreator());
+        questionDTO.setUser(user);
+        return questionDTO;
+
     }
 }
