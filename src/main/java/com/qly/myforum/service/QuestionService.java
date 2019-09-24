@@ -26,7 +26,7 @@ public class QuestionService {
         return questionMapper.insert(question);
     }
 
-    public Integer getTotalPage(Integer totalSize, Integer page, Integer size){
+    public Integer getTotalPage(Integer totalSize, Integer page, Integer size) {
         int totalPage = 0;
         if (totalSize % size == 0) {
             totalPage = totalSize / size;
@@ -43,7 +43,7 @@ public class QuestionService {
         return totalPage;
     }
 
-    public PaginationDTO getPaginationDto(List<Question> questions, Integer totalPage,Integer page){
+    public PaginationDTO getPaginationDto(List<Question> questions, Integer totalPage, Integer page) {
         List<QuestionDTO> questionDTOS = new ArrayList<QuestionDTO>();
         QuestionDTO target = null;
         //查询出该业需要的数据（questionDTOS）
@@ -65,25 +65,44 @@ public class QuestionService {
         Integer totalPage = getTotalPage(totalSize, page, size);
         Integer offset = size * (page - 1);
         List<Question> questions = questionMapper.selectByPage(offset, size);
-        return getPaginationDto(questions,totalPage,page);
+        return getPaginationDto(questions, totalPage, page);
     }
 
     public PaginationDTO selectMyQuestion(Long userId, Integer page, Integer size) {
         Integer totalSize = questionMapper.countOfQuestionsByUser(userId);
-        Integer totalPage = getTotalPage(totalSize,page, size);
+        Integer totalPage = getTotalPage(totalSize, page, size);
         Integer offset = size * (page - 1);
-        List<Question> questions = questionMapper.selectByPageAndId(userId,offset, size);
-        return getPaginationDto(questions,totalPage,page);
+        List<Question> questions = questionMapper.selectByPageAndId(userId, offset, size);
+        return getPaginationDto(questions, totalPage, page);
     }
 
     public QuestionDTO getQuestionDTOById(Long id) {
 
         Question question = questionMapper.selectByPrimaryKey(id);
-        QuestionDTO questionDTO=new QuestionDTO();
-        BeanUtils.copyProperties(question,questionDTO);
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(question, questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
 
     }
+
+
+    public void updateQuestion(Question question) {
+        if (question.getId() == null) {
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(System.currentTimeMillis());
+            question.setViewCount(1);
+            System.out.println("这是新创建的问题");
+            addQuestion(question);
+        } else {
+            question.setGmtModified(System.currentTimeMillis());
+            if (question.getViewCount() == null) {
+                question.setViewCount(1);
+            }
+            question.setViewCount(question.getViewCount() + 1);
+            questionMapper.updateByPrimaryKey(question);
+        }
+    }
+
 }

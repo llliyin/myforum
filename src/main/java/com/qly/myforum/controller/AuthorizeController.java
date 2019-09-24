@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.metadata.ReturnValueDescriptor;
 import java.util.UUID;
 
 @Controller
@@ -78,5 +79,11 @@ public class AuthorizeController {
             request.setAttribute("message","用户不存在，请重新登录");
            return "redirect:/";
        }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("user");
+        return "redirect:/";
     }
 }
