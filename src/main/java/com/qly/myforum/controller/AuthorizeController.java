@@ -68,10 +68,8 @@ public class AuthorizeController {
                System.out.println(user.getName());
                userService.addUser(user);
                session.setAttribute("user",user);
-               System.out.println("这是新添加用户");
            }else {
                session.setAttribute("user",git);
-               System.out.println("这是数据库里面有的用户");
            }
 
            return "redirect:/";

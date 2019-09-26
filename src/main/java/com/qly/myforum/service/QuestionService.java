@@ -10,7 +10,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,14 +76,12 @@ public class QuestionService {
     }
 
     public QuestionDTO getQuestionDTOById(Long id) {
-
         Question question = questionMapper.selectByPrimaryKey(id);
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
-
     }
 
 
@@ -105,4 +102,9 @@ public class QuestionService {
         }
     }
 
+    public void updateViewCount(Long id) {
+        Question question = questionMapper.selectByPrimaryKey(id);
+        question.setViewCount(question.getViewCount()+1);
+        questionMapper.updateByPrimaryKey(question);
+    }
 }

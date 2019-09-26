@@ -28,3 +28,27 @@ body{
     font-size: 13px;
 }
 
+.width{
+    width: 50% !important;
+}
+
+.me-media-object{
+    width: 38px;
+}
+
+.md-media-body{
+    padding: 10px;
+}
+
+.md-comment{
+    margin:10px 0px;
+}
+
+.btn-comment{
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
