@@ -339,7 +339,7 @@
     where ID = #{id,jdbcType=BIGINT}
   </update>
     <select id="selectByPage" resultMap="BaseResultMap">
-      select * from question limit #{offset}, #{size}
+      select * from question order by gmt_create desc limit #{offset}, #{size}
     </select>
   <select id="countOfQuestions" resultType="java.lang.Integer">
     select count(1) from question

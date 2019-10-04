@@ -1,20 +1,21 @@
 package com.qly.myforum.interceptor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
-public class WebConfig implements WebMvcConfigurer {
+//@Configuration
+//public class WebConfig implements WebMvcConfigurer {
 //
-////
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/")
-                .excludePathPatterns("/static/**")
-                .excludePathPatterns("/templates/**")
-                .excludePathPatterns("/callback");
-    }
-}
+//    @Autowired
+//    LoginInterceptor loginInterceptor;
+//
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(loginInterceptor).addPathPatterns("/**")
+//                .excludePathPatterns("/")
+//                .excludePathPatterns("/static/**");
+////                .excludePathPatterns("/callback");
+//    }
+//}

@@ -3,10 +3,6 @@ package com.qly.myforum.dto;
 import com.qly.myforum.exception.CustomizeErrorCode;
 import com.qly.myforum.exception.CustomizeException;
 import lombok.Data;
-import org.apache.ibatis.io.ResolverUtil;
-import sun.plugin2.message.Message;
-
-import javax.xml.transform.Result;
 
 @Data
 public class ResultDTO<T> {

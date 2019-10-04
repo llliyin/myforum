@@ -18,6 +18,14 @@ body{
 .md-margin-small{
     margin: 20px 0px;
 }
+
+.md-margin-top{
+    margin-top: 20px;
+}
+
+.md-margin-small-top{
+    margin-top: 20px;
+}
 .text-desc {
     font-size: 12px;
     font-weight: normal;
@@ -49,6 +57,56 @@ body{
     margin-top: 10px;
     margin-bottom: 10px;
 }
+.comment-sp{
+    margin-top: 0px;
+}
 
+.menu {
+    color: #999;
+    margin-top: 5px;
+}
+
+.menu .icon {
+    margin-right: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.md-margin-top{
+    margin-top: 20px;
+}
+.md-margin-small-top{
+    margin-top: 20px;
+}
+
+.sub-comments {
+    border-radius: 5px;
+    margin-top: 20px;
+    border: 1px solid #eee;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+
+.sub-comments .btn {
+    margin: 10px 0;
+}
+
+
+.menu .comment-icon {
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.menu .comment-icon :hover {
+    color: #499ef3;
+}
+
+.menu .active {
+    color: #499ef3;
+}
+
+.menu .icon:hover {
+    color: #499ef3;
+}
 
 

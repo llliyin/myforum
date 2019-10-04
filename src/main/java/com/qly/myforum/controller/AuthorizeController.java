@@ -56,7 +56,6 @@ public class AuthorizeController {
            if(git == null){
                User user = new User();
                String token= UUID.randomUUID().toString();
-
                user.setToken(token);
                user.setAvatarUrl(githubUser.getAvatarUrl());
                user.setBio(githubUser.getBio());

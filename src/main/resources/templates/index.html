@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <title>QLY社区</title>
 </head>
-
+<script type="application/javascript">
+    var closable=window.localStorage.getItem("closable");
+    if("true"==closable){
+        window.close();
+        window.localStorage.removeItem("closable")
+    }
+</script>
 <body>
 <div th:insert="~{navigation::nav}"></div>
 <div class="text-center" style="width: 50%;margin: 20px auto;">

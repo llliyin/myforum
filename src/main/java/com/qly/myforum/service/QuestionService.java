@@ -5,6 +5,7 @@ import com.qly.myforum.dto.QuestionDTO;
 import com.qly.myforum.mapper.QuestionMapper;
 import com.qly.myforum.mapper.UserMapper;
 import com.qly.myforum.pojo.Question;
+import com.qly.myforum.pojo.QuestionExample;
 import com.qly.myforum.pojo.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
