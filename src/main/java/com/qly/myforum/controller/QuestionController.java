@@ -30,13 +30,13 @@ public class QuestionController {
         //添加阅读数
         questionService.updateViewCount(id);
         QuestionDTO questionDTOById = questionService.getQuestionDTOById(id);
-
         //寻找commentList
-        List<CommentDTO> parentComment = commentService.commentListByid(id);
 
+        List<QuestionDTO> relatedQuestions = questionService.selectRelated(questionDTOById);
+        List<CommentDTO> parentComment = commentService.commentListByid(id);
+        model.addAttribute("relatedQuestions",relatedQuestions);
         model.addAttribute("question",questionDTOById);
         model.addAttribute("comments",parentComment);
-
         return "question";
     }
 }

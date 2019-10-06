@@ -2,17 +2,20 @@ package com.qly.myforum.service;
 
 import com.qly.myforum.dto.PaginationDTO;
 import com.qly.myforum.dto.QuestionDTO;
+import com.qly.myforum.mapper.QuestionExtMapper;
 import com.qly.myforum.mapper.QuestionMapper;
 import com.qly.myforum.mapper.UserMapper;
 import com.qly.myforum.pojo.Question;
-import com.qly.myforum.pojo.QuestionExample;
 import com.qly.myforum.pojo.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -21,6 +24,9 @@ public class QuestionService {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    QuestionExtMapper questionExtMapper;
 
     public int addQuestion(Question question) {
         return questionMapper.insert(question);
@@ -107,5 +113,29 @@ public class QuestionService {
         Question question = questionMapper.selectByPrimaryKey(id);
         question.setViewCount(question.getViewCount()+1);
         questionMapper.updateByPrimaryKey(question);
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
+        if (StringUtils.isBlank(queryDTO.getTag())) {
+            return new ArrayList<>();
+        }
+        String[] tags = StringUtils.split(queryDTO.getTag(), ",");
+        String regexpTag = Arrays
+                .stream(tags)
+                .filter(StringUtils::isNotBlank)
+                .map(t -> t.replace("+", "").replace("*", "").replace("?", ""))
+                .filter(StringUtils::isNotBlank)
+                .collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTag(regexpTag);
+
+        List<Question> questions = questionExtMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q, questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }

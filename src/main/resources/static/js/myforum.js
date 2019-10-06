@@ -169,3 +169,20 @@ function comment(e) {
     comment2target(id, content, 2);
 
 }
+
+function showSelectTag() {
+    $("#select-tag").show();
+}
+
+function selectTag(e) {
+    var value = e.getAttribute("data-tag");
+    var previous = $("#tag").val();
+    if (previous.indexOf(value) == -1) {
+        if (previous) {
+            $("#tag").val(previous + ',' + value);
+        } else {
+            //.val括号中加上参数额时候就是将值放入对应的东西当中
+            $("#tag").val(value);
+        }
+    }
+}

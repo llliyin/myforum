@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{import::head}">
+<head >
     <meta charset="UTF-8">
     <title>QLY社区</title>
+    <head th:insert="~{import::head}"></head>
 </head>
 <script type="application/javascript">
     var closable=window.localStorage.getItem("closable");
@@ -13,23 +14,6 @@
 </script>
 <body>
 <div th:insert="~{navigation::nav}"></div>
-<div class="text-center" style="width: 50%;margin: 20px auto;">
-    <div th:if="${user==null&& message==null}" class="alert alert-info text-center alert-dismissible width" role="alert">
-        <!--&times;-->
-        <button type="button"  class="close" data-dismiss="alert" aria-label="Close"><span
-                aria-hidden="true">OK</span></button>
-        为了小伙伴更好的体验，请先登录哦
-    </div>
-
-    <div class="alert alert-danger text-center alert-dismissible width" th:if="${user==null&&message!=null}" role="alert">
-        <!--&times;-->
-        <button type="button"  class="close" data-dismiss="alert"
-                aria-label="Close"><span
-                aria-hidden="true">OK</span></button>
-        <p th:text="${message}"></p>
-    </div>
-</div>
-
 <div class="container-fluid main">
     <!--这是左边的块-->
     <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
@@ -47,14 +31,23 @@
             </div>
 
             <div class="media-body">
-                <h4 class="media-heading"></h4>
-                <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
-                <span class="text-desc">
-                        <span th:text="${question.commentCount}">1</span> 个回复 •
-                        <span th:text="${question.viewCount}">2</span> 次浏览 •
-                        <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
-                    </span>
+                <h4 class="media-heading">
+                    <a th:href="@{'/question/'+ ${question.id}}" th:text="${question.title}"></a>
+                </h4>
+                <span class="text-desc"><span th:text="${question.commentCount}"></span> 个回复 • <span
+                        th:text="${question.viewCount}"></span> 次浏览 • <span
+                        th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>
             </div>
+
+            <!--<div class="media-body">-->
+                <!--<h4 class="media-heading"></h4>-->
+                <!--<a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>-->
+                <!--<span class="text-desc">-->
+                        <!--<span th:text="${question.commentCount}">1</span> 个回复 •-->
+                        <!--<span th:text="${question.viewCount}">2</span> 次浏览 •-->
+                        <!--<span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>-->
+                    <!--</span>-->
+            <!--</div>-->
 
         </div>
         <nav aria-label="Page navigation">

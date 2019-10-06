@@ -27,4 +27,6 @@ public interface NotificationMapper {
     int updateByPrimaryKeySelective(Notification record);
 
     int updateByPrimaryKey(Notification record);
+
+    List<Notification> selectByPageAndId(@Param("receiver") Long id, @Param("offset") Integer offset, @Param("size") Integer size);
 }

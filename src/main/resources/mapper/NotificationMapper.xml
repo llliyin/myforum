@@ -272,4 +272,7 @@
       OUTER_TITLE = #{outerTitle,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+    <select id="selectByPageAndId" resultMap="BaseResultMap">
+      select * from NOTIFICATION where RECEIVER = #{receiver} order by gmt_create desc limit #{offset}, #{size}
+    </select>
 </mapper>

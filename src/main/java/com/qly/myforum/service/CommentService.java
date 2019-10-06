@@ -2,15 +2,15 @@ package com.qly.myforum.service;
 
 import com.qly.myforum.dto.CommentDTO;
 import com.qly.myforum.enums.ContentTypeEnum;
+import com.qly.myforum.enums.NotificationStatusEnum;
+import com.qly.myforum.enums.NotificationTypeEnum;
 import com.qly.myforum.exception.CustomizeErrorCode;
 import com.qly.myforum.exception.CustomizeException;
 import com.qly.myforum.mapper.CommentMapper;
+import com.qly.myforum.mapper.NotificationMapper;
 import com.qly.myforum.mapper.QuestionMapper;
 import com.qly.myforum.mapper.UserMapper;
-import com.qly.myforum.pojo.Comment;
-import com.qly.myforum.pojo.CommentExample;
-import com.qly.myforum.pojo.Question;
-import com.qly.myforum.pojo.User;
+import com.qly.myforum.pojo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +31,11 @@ public class CommentService {
     @Autowired
     QuestionMapper questionmapper;
 
+    @Autowired
+    private NotificationMapper notificationMapper;
+
     @Transactional
-    public void handleComment(Comment comment, User user) {
+    public void handleComment(Comment comment, User commentator) {
 
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
@@ -46,7 +49,6 @@ public class CommentService {
         //回复评论
         if (comment.getType() == ContentTypeEnum.COMMENT.getType()) {
 
-   System.out.println("进入评论页面");
             Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
 
             //查看评论是否存在
@@ -65,6 +67,10 @@ public class CommentService {
             dbComment.setCommentCount(comment.getCommentCount() + 1);
             commentMapper.updateByPrimaryKey(dbComment);
 
+            //添加回复,并且将outId设置成最外层的问题的id
+            createNotify(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
+
+
         } else {
             //回复问题
             Question question = questionmapper.selectByPrimaryKey(comment.getParentId());
@@ -77,7 +83,27 @@ public class CommentService {
             question.setCommentCount(question.getCommentCount()+1);
             questionmapper.updateByPrimaryKey(question);
 
+            //创建回复问题的评论
+            createNotify(comment, question.getCreator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_QUESTION, question.getId());
+
         }
+    }
+
+    private void createNotify(Comment comment, Long receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Long outerId) {
+//        if (receiver == comment.getCommentator()) {
+//            return;
+//        }
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationType.getType());
+        notification.setOuterid(outerId);
+        notification.setNotifier(comment.getCommentator());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(receiver);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
+        notificationMapper.insert(notification);
+  System.out.println("完成通知操作");
     }
 
     public List<CommentDTO> commentListByid(Long id) {

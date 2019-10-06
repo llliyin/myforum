@@ -1,9 +1,11 @@
 package com.qly.myforum.controller;
 
+import com.qly.myforum.cache.TagCache;
 import com.qly.myforum.dto.QuestionDTO;
 import com.qly.myforum.pojo.Question;
 import com.qly.myforum.pojo.User;
 import com.qly.myforum.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +20,8 @@ public class PublishController {
     QuestionService questionService;
 
     @GetMapping("publish")
-    public String publishPage() {
+    public String publishPage(Model model) {
+        model.addAttribute("tags",TagCache.get());
         return "publish";
     }
 
@@ -50,6 +53,13 @@ public class PublishController {
                 model.addAttribute("error", "标签不能为空不能为空");
                 return "publish";
             }
+
+            String invalid = TagCache.filterInvalid(tag);
+            if (StringUtils.isNotBlank(invalid)) {
+                model.addAttribute("error", "输入非法标签:" + invalid);
+                return "publish";
+            }
+
             Question question = new Question();
             question.setTitle(title);
             question.setDescription(description);
@@ -60,6 +70,8 @@ public class PublishController {
             question.setCommentCount(0);
             question.setId(id);
             questionService.updateQuestion(question);
+
+            model.addAttribute("tags",TagCache.get());
             return "redirect:/";
         }
     }
@@ -67,12 +79,12 @@ public class PublishController {
     @GetMapping("/publish/{id}")
     public String edit(@PathVariable(name = "id") Long id,
     Model model) {
-
         QuestionDTO questionDTOById = questionService.getQuestionDTOById(id);
         model.addAttribute("title", questionDTOById.getTitle());
         model.addAttribute("description", questionDTOById.getDescription());
         model.addAttribute("tag", questionDTOById.getTag());
         model.addAttribute("id",questionDTOById.getId());
+        model.addAttribute("tags",TagCache.get());
         return "publish";
     }
 }

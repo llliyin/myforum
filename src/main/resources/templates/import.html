@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head th:fragment="head">
-        <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../static/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="../static/css/myforum.css">
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
-        <script src="../static/js/jquery-3.4.1.min.js"></script>
-        <script src="../static/js/bootstrap.min.js" type="application/javascript"></script>
-        <script src="../static/js/myforum.js" type="application/javascript"></script>
-        <script src="../static/js/moment.js" type="application/javascript"></script>
-    </head>
+<head th:fragment="head">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/static/css/myforum.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="/static/js/jquery-3.4.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/static/js/myforum.js" type="application/javascript"></script>
+    <script src="/static/js/moment.js" type="application/javascript"></script>
+    <script src="../static/markdown/js/editormd.min.js"></script>
+</head>
 
-
+<head th:fragment="markdown">
+    <link rel="stylesheet" href="/static/markdown/css/editormd.css"/>
+    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon"/>
+    <script src="/static/markdown/js/jquery.min.js"></script>
+    <script src="/static/markdown/js/editormd.min.js" type="application/javascript"></script>
+    <script src="/static/markdown/lib/marked.min.js"></script>
+    <script src="/static/markdown/lib/prettify.min.js"></script>
+</head>
 </html>

@@ -1,8 +1,12 @@
 package com.qly.myforum.controller;
 
 import com.qly.myforum.dto.PaginationDTO;
+import com.qly.myforum.exception.CustomizeErrorCode;
+import com.qly.myforum.exception.CustomizeException;
 import com.qly.myforum.mapper.QuestionMapper;
+import com.qly.myforum.pojo.Notification;
 import com.qly.myforum.pojo.User;
+import com.qly.myforum.service.NotificationService;
 import com.qly.myforum.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +24,10 @@ public class ProfileController {
 
     @Autowired
     QuestionService questionService;
+
+    @Autowired
+    NotificationService notificationService;
+
 
     @GetMapping("/profile/{action}")
     public String profilePage(@PathVariable(name = "action") String action,
@@ -40,8 +48,9 @@ public class ProfileController {
         if ("replies".equals(action)) {
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
+            PaginationDTO paginationDTO = notificationService.list(user.getId(), page, size);
+            model.addAttribute("list",paginationDTO);
         }
-
         return "profile";
     }
 }

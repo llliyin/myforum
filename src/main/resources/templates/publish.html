@@ -4,51 +4,101 @@
     <meta charset="UTF-8">
     <title>钱丽银的社区</title>
     <head th:insert="~{import::head}">
-</head>
-
+     <head th:insert="~{import::markdown}"></head>
+    </head>
+    <script type="text/javascript">
+        var testEditor;
+        $(function () {
+            testEditor = editormd("test-editormd", {
+                width: "100%",
+                height: 640,
+                syncScrolling: "single",
+                path: "/static/markdown/lib/",
+                delay:0,
+                watch:false,
+                imageUpload          : true,          // Enable/disable upload
+                imageFormats         : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL       : "/file/upload"            // Upload url
+            });
+        });
+    </script>
 <body>
-    <div th:insert="~{navigation::nav}"></div>
-    <div class="container-fluid main">
+<div th:insert="~{navigation::nav}"></div>
+<div class="container-fluid main">
 
-        <!--这是左边的块-->
-        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <div class="teal">
-                <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
+    <!--这是左边的块-->
+    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+        <div class="teal">
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
+        </div>
+
+        <hr>
+        <form action="/publish" method="post">
+            <input type="hidden" name="id" th:value="${id}">
+            <div class="form-group md-margin-small">
+                <label for="title">问题标题(简单扼要)</label>
+                <input type="text" autocomplete="off" class="form-control" th:value="${title}" name="title"
+                       placeholder="问题标题" id="title">
             </div>
-
-            <hr>
-            <form action="/publish" method="post">
-                <input type="hidden" name="id" th:value="${id}">
-                <div class="form-group md-margin-small">
-                    <label for="title">问题标题(简单扼要)</label>
-                    <input type="text" class="form-control" th:value="${title}" name="title" placeholder="问题标题" id="title">
-                </div>
-                <div class="form-group md-margin-small">
-                    <label for="description">问题补充（请参照右边 提示）：</label>
-                    <textarea name="description" id="description" cols="30" th:text="${description}" class="form-control" rows="10">
+            <div class="form-group md-margin-small">
+                <label for="description">问题补充（请参照右边 提示）：</label>
+                <div id="test-editormd">
+                     <textarea name="description" id="description" cols="30" th:text="${description}" class="form-control"
+                               rows="10">
                     </textarea>
                 </div>
-                <div class="form-group md-margin-small">
-                    <label for="tag">添加标签</label>
-                    <input type="text" class="form-control" th:value="${tag}" name="tag" placeholder="输入标签，以逗号隔开" id="tag">
-                </div>
-                <div class="alert alert-danger text-center alert-dismissible" role="alert" th:if="${error}!=null">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong th:text="${error}">Warning!</strong>
+            </div>
 
-                </div>
-                    <button type="submit" class="btn btn-success btn-publish">发布</button>
-            </form>
-        </div>
+            <!--标签页-->
+            <div class="form-group md-margin-small">
+                <label for="tag">添加标签</label>
+                <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag"
+                       autocomplete="off"
+                       placeholder="输入标签，以，号分隔"
+                       onclick="showSelectTag()">
 
-        <!--这是右边的块-->
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>问题发起指南</h3>
-            • 问题标题: 请用精简的语言描述您发布的问题，不超过25字 <br>
-            • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
-            • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
-        </div>
+                <div id="select-tag" class="publish-tag-tab">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" th:each="selectCategory,selectCategoryStat: ${tags}"
+                            th:class="${selectCategoryStat.first ? 'active':''}">
+                            <a th:href="${'#'+selectCategory.categoryName}" aria-controls="home" role="tab"
+                               data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" th:id="${selectCategory.categoryName}"
+                             th:each="selectCategory: ${tags}"
+                             th:class="${selectCategoryStat.first ? 'active tab-pane':'tab-pane'}">
+                                <span>
+                                    <span th:each="selectTag: ${selectCategory.tags}">
+                                    <span class="community-tag" onclick="selectTag(this)"
+                                          th:data-tag="${selectTag}"
+                                          th:text="${' '+selectTag}">
+                                    </span>
+                                </span>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-danger text-center alert-dismissible" role="alert" th:if="${error}!=null">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <strong th:text="${error}">Warning!</strong>
+
+            </div>
+            <button type="submit" class="btn btn-success btn-publish">发布</button>
+        </form>
     </div>
+
+    <!--这是右边的块-->
+    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+        <h3>问题发起指南</h3>
+        • 问题标题: 请用精简的语言描述您发布的问题，不超过25字 <br>
+        • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
+        • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
+    </div>
+</div>
 
 
 </body>
