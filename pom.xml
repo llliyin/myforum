@@ -62,6 +62,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!--ucloud-->
+        <dependency>
+            <groupId>cn.ucloud.ufile</groupId>
+            <artifactId>ufile-client-java</artifactId>
+            <version>2.2.1</version>
+        </dependency>
         <!--okhttp-->
         <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
         <dependency>

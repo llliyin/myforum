@@ -1,5 +1,6 @@
 package com.qly.myforum.mapper;
 
+import com.qly.myforum.dto.QuestionQueryDTO;
 import com.qly.myforum.pojo.Question;
 import com.qly.myforum.pojo.QuestionExample;
 import java.util.List;
@@ -37,6 +38,8 @@ public interface QuestionMapper {
     List<Question> selectByPage(@Param("offset") Integer offset, @Param("size") Integer size);
 
     Integer countOfQuestions();
+
+    Integer countBySearch(QuestionQueryDTO questionQueryDTO);
 
     Integer countOfQuestionsByUser(@Param("userId") Long userId);
 

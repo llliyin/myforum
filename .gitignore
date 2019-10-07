@@ -3,7 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
-
+logs/
 ### STS ###
 .apt_generated
 .classpath
@@ -12,7 +12,6 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -29,3 +28,6 @@ build/
 
 ### VS Code ###
 .vscode/
+/logs/
+src/main/java/com/qly/myforum/model/
+src/main/java/com/qly/myforum/schedule/

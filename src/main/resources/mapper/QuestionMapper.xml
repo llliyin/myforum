@@ -341,9 +341,32 @@
     <select id="selectByPage" resultMap="BaseResultMap">
       select * from question order by gmt_create desc limit #{offset}, #{size}
     </select>
+
+
   <select id="countOfQuestions" resultType="java.lang.Integer">
     select count(1) from question
   </select>
+
+  <select id="countBySearch" parameterType="com.qly.myforum.dto.QuestionQueryDTO"
+          resultType="java.lang.Integer">
+    select count(*) from QUESTION
+    <where>
+      <if test="search != null and search != ''">
+        and title regexp #{search}
+      </if>
+      <if test="tag != null and tag != ''">
+        and tag regexp #{tag}
+      </if>
+      <if test="sort != null and sort != '' and sort == 'no'">
+        and comment_count = 0
+      </if>
+      <if test="time != null and time != ''">
+        and gmt_create > #{time}
+      </if>
+    </where>
+  </select>
+
+
   <select id="countOfQuestionsByUser" resultType="java.lang.Integer">
     select count(1) from question where  creator=#{userId}
   </select>

@@ -2,6 +2,7 @@ package com.qly.myforum.service;
 
 import com.qly.myforum.dto.PaginationDTO;
 import com.qly.myforum.dto.QuestionDTO;
+import com.qly.myforum.dto.QuestionQueryDTO;
 import com.qly.myforum.mapper.QuestionExtMapper;
 import com.qly.myforum.mapper.QuestionMapper;
 import com.qly.myforum.mapper.UserMapper;
@@ -65,16 +66,30 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public PaginationDTO findQuestions(Integer page, Integer size) {
-
-        Integer totalSize = questionMapper.countOfQuestions();
+    public PaginationDTO findQuestions(Integer page, Integer size, String search) {
+        if (StringUtils.isNotBlank(search)) {
+            String[] tags = StringUtils.split(search, " ");
+            search = Arrays
+                    .stream(tags)
+                    .filter(StringUtils::isNotBlank)
+                    .map(t -> t.replace("+", "").replace("*", "").replace("?", ""))
+                    .filter(StringUtils::isNotBlank)
+                    .collect(Collectors.joining("|"));
+        }
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalSize = questionMapper.countBySearch(questionQueryDTO);
         Integer totalPage = getTotalPage(totalSize, page, size);
         Integer offset = size * (page - 1);
-        List<Question> questions = questionMapper.selectByPage(offset, size);
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
+//        List<Question> questions = questionMapper.selectByPage(offset, size);
         return getPaginationDto(questions, totalPage, page);
     }
 
     public PaginationDTO selectMyQuestion(Long userId, Integer page, Integer size) {
+
         Integer totalSize = questionMapper.countOfQuestionsByUser(userId);
         Integer totalPage = getTotalPage(totalSize, page, size);
         Integer offset = size * (page - 1);
@@ -97,7 +112,6 @@ public class QuestionService {
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(System.currentTimeMillis());
             question.setViewCount(1);
-            System.out.println("这是新创建的问题");
             addQuestion(question);
         } else {
             question.setGmtModified(System.currentTimeMillis());
