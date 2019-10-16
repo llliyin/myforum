@@ -10,6 +10,7 @@ import com.qly.myforum.pojo.NotificationExample;
 import com.qly.myforum.pojo.User;
 import com.qly.myforum.provider.GithubProvider;
 import com.qly.myforum.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.modeler.NotificationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
+@Slf4j
 public class AuthorizeController {
 
     @Value("${github.client.id}")
@@ -89,6 +91,7 @@ public class AuthorizeController {
 
            return "redirect:/";
        }else {
+           log.error("callback get github error,{}",githubUser);
             request.setAttribute("message","用户不存在，请重新登录");
            return "redirect:/";
        }

@@ -22,6 +22,7 @@ public class CustomizeExceptionHandler {
     //无法同时返回ModelAndView，使用流的方式向前台传送被格式化成json的字符串
      @ExceptionHandler(Exception.class)
     ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Throwable ex , Model model){
+
             String contentType=request.getContentType();
 
 //            要是请求是一个application/json请求，就返回result

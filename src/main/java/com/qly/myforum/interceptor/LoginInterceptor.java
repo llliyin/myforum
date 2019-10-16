@@ -36,6 +36,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                     .andStatusEqualTo(NotificationStatusEnum.UNREAD.getStatus());
             List<Notification> notifications = notificationMapper.selectByExample(notificationExample);
             request.getSession().setAttribute("unreadCount",notifications.size());
+        System.out.println("拦截器放行");
         return true;
     }
 }
